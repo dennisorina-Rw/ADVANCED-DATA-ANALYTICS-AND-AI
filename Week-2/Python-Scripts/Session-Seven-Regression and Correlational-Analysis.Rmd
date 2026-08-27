@@ -1,0 +1,1148 @@
+---
+title: |
+  <div style="float: right;">![](image1.png){width=140px}</div>
+  Regression and Correlational Analysis
+pagetitle: "Regression and Correlational Analysis"
+subtitle: "Powered by [Center for Data Analytics & Modeling - Chuka University](https://cdam.chuka.ac.ke/)"
+author: "Lumumba W. Victor | CDAM-Chuka University"
+date: today
+
+categories: 
+  - "[Chuka University](https://www.chuka.ac.ke/)"
+  - "[CDAM](https://cdam.chuka.ac.ke/)"
+  - "[Machine Learning](https://short-fuchsia-f91qltylss.edgeone.app/)"
+  - "[AI Tools](https://cdam.chuka.ac.ke/training/)"
+  - "[Introduction to R](https://inadequate-blue-5dmrc4sdyf.edgeone.app/)"
+  - "[Data Cleaning](https://combative-brown-qgx0d3cbx1.edgeone.app/)"
+  - "[Data Manipulation](https://forthcoming-green-sjpgogkrwt.edgeone.app/)"
+  - "[Data Visualization](https://mutual-brown-xl1xhmejw4.edgeone.app/)"
+  - "[Hypothesis Testing](https://ideological-white-ifkakf9egh.edgeone.app/)"
+  - "[Regression Analysis](https://yearling-indigo-toswlukhpg.edgeone.app/#r-implementation)"
+  - "[Non-Parametric Test and ANOVA](https://remarkable-harlequin-j5avb2whdz.edgeone.app/)"
+  - "[Time Series Analysis](https://fluffy-brown-zkrbp8tnb1.edgeone.app/)"
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    toc-location: right
+    code-overflow: wrap
+    anchor-sections: true
+    #css: styles.css
+
+title-block-banner: "#4169E1"
+---
+
+# **Regression and Correlational Analysis in R**
+
+## **Regression Analysis**
+Regression analysis is a statistical technique used to examine the relationship between one or more independent variables (predictors) and a dependent variable (outcome). It helps to understand how changes in the independent variables are associated with changes in the dependent variable. Regression analysis can be used for prediction, forecasting, and identifying important factors that influence the outcome.
+
+## **History of Regression Analysis**
+Regression analysis has a long history dating back to the 19th century. The term "regression" was first introduced by Sir Francis Galton in the late 1800s when he observed that the heights of children tended to regress toward the mean height of their parents. This concept laid the foundation for the development of regression analysis as a statistical method. 
+
+Karl Pearson and Ronald Fisher further contributed to the development of regression techniques in the early 20th century, leading to the widespread use of regression analysis in various fields such as economics, social sciences, and natural sciences.
+
+## **Correlation Analysis**
+Correlation analysis, on the other hand, is a statistical method used to measure the strength and direction of the relationship between two variables. It quantifies the degree to which changes in one variable are associated with changes in another variable. Correlation analysis does not imply causation; it only indicates the presence and strength of a relationship.
+
+## **Distinguishing Correlation and Causation**
+The two concepts of correlation and causation are often confused, but they are distinct. Correlation indicates a statistical association between two variables, while causation implies that changes in one variable directly cause changes in another. It is important to note that correlation does not imply causation, and further research is often needed to establish causal relationships.
+
+## **Set up the Current Working Directory**
+```{r}
+setwd("D:/New Program/Training Outline/R for Professional Data Science")
+```
+
+### **Explore the Data set**
+```{r}
+# Load data
+data(mtcars)
+head(mtcars)
+```
+
+```{r}
+# View structure
+str(mtcars)
+```
+
+### **Description of the Dataset**
+mtcars {datasets}	R Documentation
+Motor Trend Car Road Tests
+
+**Description**
+
+The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).
+
+Usage
+mtcars
+Format
+A data frame with 32 observations on 11 (numeric) variables.
+
+[, 1]	mpg	Miles/(US) gallon
+[, 2]	cyl	Number of cylinders
+[, 3]	disp	Displacement (cu.in.)
+[, 4]	hp	Gross horsepower
+[, 5]	drat	Rear axle ratio
+[, 6]	wt	Weight (1000 lbs)
+[, 7]	qsec	1/4 mile time
+[, 8]	vs	Engine (0 = V-shaped, 1 = straight)
+[, 9]	am	Transmission (0 = automatic, 1 = manual)
+[,10]	gear	Number of forward gears
+[,11]	carb	Number of carburetors
+
+
+## **Scatter Plots are Essential Before Regression and Correlation**
+```{r}
+library ( ggplot2 )
+
+# Scatterplot : Weight vs MPG
+ggplot(mtcars, aes(x=wt, y=mpg)) +
+  geom_point( color ="blue", size =1) +
+  geom_smooth( method ="lm", se=TRUE, color ="red") +
+  labs (title =" Relationship between Weight and MPG",
+         x=" Weight (1000 lbs)", y=" Miles per Gallon ")
+```
+
+** NOte**
+There is a strong negative correlation between weight and miles per gallon. As the weight of the car increases, the miles per gallon decreases.
+
+## **Comput Pearson Correlation Analysis in R**
+```{r}
+# Compute Pearson correlation
+cor(mtcars$wt, mtcars$mpg, method = "pearson")
+```
+
+### **Test significance**
+
+### **State the null and alternative hypotheses:**
+
+- H0: There is no significant correlation between weight and miles per gallon (r = 0).
+- H1: There is a significant correlation between weight and miles per gallon (r ≠ 0).
+
+### **Decision Rule:**
+- If the p-value is less than the significance level (commonly set at 0.05), we reject the null hypothesis. Otherwise, we fail to reject the null hypothesis.
+
+### **Testing the Significance of the Correlation**
+```{r}
+cor.test(mtcars$wt, mtcars$mpg, method = "pearson")
+```
+
+**Interpretation:**
+The Pearson correlation coefficient (r) is -0.867, indicating a strong negative correlation between weight and miles per gallon. The p-value is less than 0.05, which means we reject the null hypothesis and conclude that there is a statistically significant correlation between weight and miles per gallon.
+
+### **When Normality is Violated or Data is Ordinal**
+```{r}
+# Compute Spearman correlation
+cor(mtcars$wt, mtcars $mpg, method = "spearman")
+```
+
+```{r}
+# Test significance
+cor.test(mtcars$wt, mtcars$mpg, method = "spearman")
+```
+
+### **Correlation Metrix**
+### **Examine relationships between multiple variables simultaneously.**
+```{r}
+# Select numeric columns
+num_vars <- mtcars[, c("mpg", "cyl", "disp", "hp", "wt")]
+
+# Correlation matrix
+cor_matrix <- cor(num_vars, method = "pearson")
+print(round(cor_matrix, 2))
+```
+
+```{r}
+# Select numeric columns
+num_vars <- mtcars[, c("mpg", "cyl", "disp", "hp", "wt")]
+
+# Correlation matrix
+cov_matrix <- cov(num_vars, method = "pearson")
+print(round(cov_matrix, 2))
+```
+
+### **Visualize Correlation Matrix**
+```{r}
+library(corrplot)
+corrplot(cor_matrix, 
+         #title = "Pairwise Correlation Plot",
+         method = "color", 
+         #type = "upper",
+         addCoef.col = "white",
+         tl.col = "black", 
+         tl.srt = 45)
+```
+
+### **SLR  Model in R**
+```{r}
+## Fit Simple Linear Regression
+model_slr <- lm(mpg ~ wt, data = mtcars )
+```
+
+```{r}
+summary(model_slr)
+```
+
+### **State the Null and Alternative Hypotheses:**
+- H0: There is no statistically significant effect of weight of the car on miles per gallon (the coefficient for weight is equal to zero) at 5% level of significance.
+
+- H1: There is a statistically significant effect of weight of the car on miles per gallon (the coefficient for weight is not equal to zero) at 5% level of significance.
+
+### **Simple Linear Regression Equation**
+$$
+\text{Equation:} = \hat{MPG} = 37.2851 -5.3445 \times \text{wt}
+$$
+
+**Interpretation:**
+The coefficient for weight (wt) is -5.344, which means that for every 1 unit increase in weight (1000 lbs), the miles per gallon (mpg) decreases by approximately 5.344 units, holding all else constant. The p-value for the weight variable is less than 0.05, indicating that the effect of weight on miles per gallon is statistically significant at 5% level of significance.
+
+### **Null and Alternative Hypotheses for the Overall Model (F-Test):**
+
+- H0: The overall regression model is not statistically significant (the model does not explain a significant portion of the variance in miles per gallon).
+
+- H1: The overall regression model is statistically significant (the model explains a significant portion of the variance in miles per gallon).
+
+### **Decision Rule:**
+- If the p-value for the F-test is less than the significance level (commonly set at 0.05), we reject the null hypothesis. Otherwise, we fail to reject the null hypothesis.
+
+**Interpretation of F-Test:**
+The F-statistic is 91.38 with a p-value of 1.294e-10, which is less than 0.05. Therefore, we reject the null hypothesis and conclude that the overall regression model is statistically significant, meaning that weight of the car significantly explains the variance in miles per gallon.
+
+
+### **Report R-squared and Adjusted R-squared:**
+- R-squared: 0.7528
+- Adjusted R-squared: 0.7446
+**Interpretation:**
+
+The R-squared value of 0.7528 indicates that approximately 75.28% of the variance in miles per gallon (mpg) can be explained by the weight of the car (wt). The adjusted R-squared value of 0.7446 accounts for the number of predictors in the model and provides a more accurate measure of the model's explanatory power. In this case the adjusted R-squared is slightly lower than the R-squared, which suggests that the model is a good fit for the data, but there may be some room for improvement by including additional predictors.
+
+### **Confidence Intervals for the Coefficients:**
+```{r}
+confint(model_slr, level = 0.95)
+```
+
+**Interpretation:**
+The 95% confidence interval for the intercept (37.2851) ranges from 33.45 to 41.12, which means we are 95% confident that the true intercept value lies within this range. The 95% confidence interval for the weight coefficient (-5.3445) ranges from -6.49 to -4.20, which means we are 95% confident that the true effect of weight on miles per gallon lies within this range. Since the confidence interval for the weight coefficient does not include zero, it further supports the conclusion that weight has a statistically significant effect on miles per gallon at the 5% level of significance.
+
+### **Prediction Using the SLR Model:**
+```{r}
+# New data frame
+new_car <- data.frame(wt = 3.5)
+new_car
+```
+
+### **Narrow confidence interval for the mean response**
+```{r}
+# Predict with Confidence Interval
+predict(model_slr, newdata = new_car, 
+         interval = "confidence")
+```
+
+#### **Wider confidence interval for the mean response**
+```{r}
+# Predict with Prediction Interval ( wider )
+predict(model_slr, newdata = new_car ,
+        interval = "prediction")
+```
+
+## **Using Hypertension Data Set to Develop SLR**
+```{r}
+# Load data
+htn <- read.csv("htn_dat.csv")
+head(htn)
+```
+
+### **Explore the Data
+```{r}
+## Check the Structure of the Data
+str(htn)
+```
+
+### **Check the Presence of Missing Value
+```{r}
+# Check for missing values as a dataframe
+Missing_Values <- data.frame(Missing.values = colSums(is.na(htn)))
+Missing_Values
+```
+
+### **Alternatively**
+```{r}
+# Check for missing values as a dataframe
+missing_values <- data.frame(
+  Variable = names(htn),
+  Missing_Count = sapply(htn, function(x) sum(is.na(x))),
+  Missing_Percentage = sapply(htn, function(x) mean(is.na(x)) * 100)
+)
+missing_values
+```
+
+### **Check Distribution  of BMI**
+```{r}
+ggplot(htn, aes(x = BMI)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Distribution of BMI", x = "BMI", y = "Frequency")
+```
+
+### **Summmary Statistics to Check Skeweness**
+```{r}
+library(psych)
+describe(htn)
+```
+
+### **Handle Missing Values**
+i. Approach 1: Remove rows with missing values (complete case analysis)
+```{r}
+comp_data <- na.omit(htn)
+head(comp_data)
+```
+
+### **Check Missing Values after Cleaning**
+```{r}
+data.frame(colSums(is.na(comp_data)))
+```
+
+### **Scatter Plot to Show the Relationship between SBP and BMI**
+```{r}
+ggplot(comp_data, aes(x = BMI, y = SBP)) +
+  geom_point(color = "steelblue", size = 1) +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Relationship between BMI and SBP",
+       x = "Body Mass Index", y = "Systolic Blood Pressure")
+```
+
+### Estimate the SLR Model
+```{r}
+model_htn <- lm(SBP ~ BMI, data = comp_data, level = 0.95)
+summary(model_htn)
+```
+
+### **The Equation of the SLR Model**
+$$
+\hat{SBP} = 92.84148 + 0.85717 \times BMI
+$$
+
+### **Ranges for BMI**
+- Normal BMI: 18.5 to 24.9
+- Overweight BMI: 25 to 29.9
+- Obese BMI: 30 or higher
+
+### **The BMI of the New Patient**
+```{r}
+bmi= (75)/(1.75^2)
+bmi
+```
+
+### **Predict the BMI of the  Person above**
+```{r}
+new_person <- data.frame(BMI = bmi)
+new_person
+```
+
+```{r}
+# Predict SBP with Confidence Interval
+predict(model_htn, newdata = new_person, interval = "confidence")
+```
+
+```{r}
+# Predict SBP with Prediction Interval
+predict(model_htn, newdata = new_person, interval = "prediction")
+```
+
+### **Multiple Linear Regression (MLR) Model**
+
+- Predictors: wt and hp
+- Outcome: mpg
+
+### **State the Null and Alternative Hypotheses for the MLR Model:**
+- H0: There is no statistically significant effect of weight and horsepower on miles per gallon (the coefficients for weight and horsepower are equal to zero) at 5% level of significance.
+
+- H1: There is a statistically significant effect of weight and horsepower on miles per gallon (the coefficients for weight and horsepower are not equal to zero) at 5% level of significance.
+
+### **Select of Level of Significance**
+- Commonly set at 0.05
+
+#### **Collect the Data**
+
+#### **Run the Test (Multple Linear Regression Model)**
+```{r}
+model_mlr <- lm(mpg ~ wt + hp, data = mtcars)
+summary(model_mlr)
+```
+
+### **The Equation of the MLR Model**
+$$
+\hat{MPG} = 37.22727 - 3.877 \times \text{wt} - 0.031 \times \text{hp}
+$$
+
+### **Decision Rule for the MLR Model:**
+
+>If the p-value for a predictor is less than the significance level (commonly set at  0.05), we reject the null hypothesis for that predictor. Otherwise, we fail to reject the null hypothesis for that predictor.
+
+### **Interpretation of the MLR Model:**
+
+- The coefficient for weight (wt) is -3.877, which means that for every 1 unit increase in weight (1000 lbs), the miles per gallon (mpg) decreases by approximately 3.877 units, holding horsepower (hp) constant. The p-value for weight is less than 0.05, indicating that the effect of weight on miles per gallon is statistically significant at 5% level of significance.
+
+- The coefficient for horsepower (hp) is -0.031, which means that for every 1 unit increase in horsepower, the miles per gallon (mpg) decreases by approximately 0.031 units, holding weight (wt) constant. The p-value for horsepower is less than 0.05, indicating that the effect of horsepower on miles per gallon is statistically significant at 5% level of significance.
+
+### **Reporyt R-squared and Adjusted R-squared for the MLR Model:**
+- An R-squared value of 0.8268 indicates that approximately 82.68% of the variance in miles per gallon (mpg) can be explained by the weight and horsepower of the car. The adjusted R-squared value of 0.8148 accounts for the number of predictors in the model and provides a more accurate measure of the model's explanatory power. In this case, the adjusted R-squared is slightly lower than the R-squared, which suggests that the model is a good fit for the data, but there may be some room for improvement by including additional predictors or considering interactions between predictors.
+
+- An adjusted R-squared value of 0.8148 indicates that approximately 81.48% of the variance in miles per gallon (mpg) can be explained by the weight and horsepower of the car, after adjusting for the number of predictors in the model. This suggests that the model has a strong explanatory power, but there may still be some unexplained variance that could potentially be accounted for by including additional predictors or considering interactions between predictors.
+
+## **Model Diagnostics for the MLR Model**
+> Multicollinearity
+
+Multicollinearity occurs when two or more predictor variables in a multiple regression model are highly correlated with each other. This can lead to unstable estimates of the regression coefficients and make it difficult to determine the individual effect of each predictor on the outcome variable.
+
+```{r}
+library (car)
+# Calculate VIF
+vif(model_mlr)
+```
+
+### **Report VIF Values:**
+- VIF values for weight (wt) and horsepower is 1.766625 indicating that there is no significant multicollinearity between the predictors in the model. Generally, a VIF value greater than 5 or 10 is considered indicative of high multicollinearity, so in this case, the VIF values suggest that multicollinearity is not a concern for this model.
+
+### **Diagnostic Plots for the MLR Model**
+```{r, fig.height=8, fig.width=10}
+# Generate diagnostic plots
+par(mfrow =c(2 ,2))
+plot(model_mlr)
+par(mfrow =c(1 ,1))
+```
+
+### **Identify the Influential Observation as Indicared by Cook's Distance**
+```{r}
+# Calculate Cook's distance
+cooks_distance <- cooks.distance(model_mlr)
+# Identify influential observations
+influential_obs <- which(cooks_distance > (4 / nrow(mtcars)))
+influential_obs
+```
+
+### **Remove Influential Observation and Refit the Model**
+```{r}
+# Remove influential observation
+mtcars_no_influential <- mtcars[-influential_obs, ]
+# Refit the model without influential observation
+model_mlr_no_influential <- lm(mpg ~ wt + hp, data = mtcars_no_influential)
+summary(model_mlr_no_influential)
+```
+
+### **Inferential Test for Normality and Homoscedasticity**
+
+#### **Null and Alternative Hypotheses for Normality:**
+- H0: The residuals of the model are normally distributed.
+- H1: The residuals of the model are not normally distributed.
+```{r}
+# Normality test (Shapiro-Wilk test)
+shapiro.test(residuals(model_mlr))
+```
+
+```{r}
+# Normality test (Anderson-Darling test)
+library(nortest)
+ad.test(residuals(model_mlr))
+```
+
+```{r}
+ggplot(data = data.frame(residuals = residuals(model_mlr)), aes(sample = residuals)) +
+  geom_qq() +
+  geom_qq_line() +
+  labs(title = "Q-Q Plot of Residuals", 
+       x = "Theoretical Quantiles", 
+       y = "Sample Quantiles")
+```
+
+```{r}
+ggplot(data = data.frame(residuals = residuals(model_mlr)), aes(x = residuals)) +
+  geom_histogram(binwidth = 0.5, fill = "steelblue", color = "black") +
+  labs(title = "Histogram of Residuals", 
+       x = "Residuals", 
+       y = "Frequency")
+```
+
+
+#### **Null and Alternative Hypotheses for Homoscedasticity:**
+- H0: The residuals of the model have constant variance (homoscedasticity).
+- H1: The residuals of the model do not have constant variance (heteroscedasticity).
+
+```{r}
+# Homoscedasticity test (Breusch-Pagan test)
+library(lmtest)
+bptest(model_mlr)
+```
+
+#### **Null and Alternative Hypotheses for Independence:**
+- H0: The residuals of the model are independent (no autocorrelation).
+- H1: The residuals of the model are not independent (autocorrelation present).
+
+```{r}
+# independence test (Durbin-Watson test)
+dwtest(model_mlr)
+```
+
+## **MULTIPLE LINEAR REGRESSION MODEL**
+
+### **US Macroeconomic Variables**
+```{r}
+library(ggplot2)
+data("economics")
+head(economics)
+tail(economics)
+```
+
+```{r}
+?economics
+```
+
+### **US economic time series**
+
+#### **Description**
+This dataset was produced from US economic time series data available from https://fred.stlouisfed.org/. economics is in "wide" format, economics_long is in "long" format.
+
+Usage
+economics
+
+economics_long
+Format
+A data frame with 574 rows and 6 variables:
+
+date
+Month of data collection
+
+pce
+personal consumption expenditures, in billions of dollars, https://fred.stlouisfed.org/series/PCE
+
+pop
+total population, in thousands, https://fred.stlouisfed.org/series/POP
+
+psavert
+personal savings rate, https://fred.stlouisfed.org/series/PSAVERT/
+
+uempmed
+median duration of unemployment, in weeks, https://fred.stlouisfed.org/series/UEMPMED
+
+unemploy
+number of unemployed in thousands, https://fred.stlouisfed.org/series/UNEMPLOY
+
+An object of class tbl_df (inherits from tbl, data.frame) with 2870 rows and 4 columns.
+
+### **Estimate the Multiple Linear Regression Model**
+```{r}
+options(scipen = 999)
+model_mlr <- lm(psavert ~ pce + 
+                  unemploy + 
+                  pop + 
+                  uempmed, 
+                data = economics)
+summary(model_mlr)
+```
+
+### **Hypothesis Testing for Overall Model**
+
+> Null hypothesis: The null model(intercept only model) is a better fit
+> Alternative hypothesis: The full fitted model is a better fit
+
+$$
+\hat{\text{Psavert}} = 45.67 + 0.00085(\text{pce}) + 
+0.00024(\text{umploy}) - 0.00017(\text{pop}) + 0.166(\text{uempmed})
+$$
+
+### **Report the Results**
+```{r}
+library(report)
+report(model_mlr)
+```
+
+### **Marginal Effect of the Linear Effect**
+```{r}
+model_mlr2 <- lm(log(psavert) ~ log(pce) + 
+                  log(unemploy) + 
+                  log(pop) + 
+                  log(uempmed), 
+                data = economics)
+summary(model_mlr2)
+```
+
+### **Model Diagnostics**
+```{r}
+model_new <- lm(log(psavert) ~ log(pce) + 
+                  log(unemploy) + 
+                  log(uempmed), 
+                data = economics)
+summary(model_new)
+```
+
+### **Normality Test for the Residuals**
+> Null hypothesis: The residuals follows a normal distribution
+> Alternative hypothesis: The residuals deviates from a normal distribution
+
+```{r}
+resid <- residuals(model_new)
+shap_test <- shapiro.test(resid)
+shap_test
+```
+
+```{r}
+resid_df <- data.frame(Residuals = resid)
+head(resid_df,5)
+```
+
+```{r}
+ggplot(data = resid_df, aes(x = Residuals))+
+  geom_histogram(fill = "steelblue",
+                 color = "black",
+                 bins = 25,
+                 alpha = 0.9)+
+  labs(
+    title = "Histogram Showing the Distribution of Residuals",
+    x = "Residuals",
+    y = "Frequency"
+  )
+```
+
+### **Heteroscedasticity**
+> Null: Residuals have a constant variance over time
+> Alternative: The variance of the residuals is not constant over time 
+
+```{r}
+# Homoscedasticity test (Breusch-Pagan test)
+library(lmtest)
+bptest(model_new)
+```
+
+### **Multicollinearity**
+```{r}
+library(car)
+vif(model_new)
+```
+
+## **Additional Example: Macroeconomic Variables**
+```{r}
+df = read.csv("training model.csv")
+head(df, 10)
+```
+
+### **Convert year variable to actual date format**
+```{r}
+df$year <- as.Date(df$year)
+head(df,10)
+```
+
+### **Run the Multiple Linear Model**
+```{r}
+model <- lm(CPI ~ ExchRate+LendIntRates, data = df)
+summary(model)
+```
+
+```{r}
+library(report)
+report_statistics(model)
+```
+
+```{r}
+report(model)
+```
+
+## **Model Diagnostics for the MLR Model**
+> Multicollinearity
+
+Multicollinearity occurs when two or more predictor variables in a multiple regression model are highly correlated with each other. This can lead to unstable estimates of the regression coefficients and make it difficult to determine the individual effect of each predictor on the outcome variable.
+
+```{r}
+library (car)
+# Calculate VIF
+vif(model)
+```
+
+### **Diagnostic Plots for the MLR Model**
+```{r, fig.height=8, fig.width=10}
+# Generate diagnostic plots
+par(mfrow =c(2 ,2))
+plot(model)
+par(mfrow =c(1 ,1))
+```
+
+### **Identify the Influential Observation as Indicared by Cook's Distance**
+```{r}
+# Calculate Cook's distance
+cooks_distance <- cooks.distance(model)
+# Identify influential observations
+influential_obs <- which(cooks_distance > (4 / nrow(df)))
+influential_obs
+```
+
+### **Remove Influential Observation and Refit the Model**
+```{r}
+# Remove influential observation
+df_no_influential <- df[-influential_obs, ]
+# Refit the model without influential observation
+model_mlr_no_influential <- lm(CPI ~ ExchRate+LendIntRates, data = df_no_influential)
+summary(model_mlr_no_influential)
+```
+
+### **Inferential Test for Normality and Homoscedasticity**
+
+#### **Null and Alternative Hypotheses for Normality:**
+- H0: The residuals of the model are normally distributed.
+- H1: The residuals of the model are not normally distributed.
+```{r}
+# Normality test (Shapiro-Wilk test)
+shapiro.test(residuals(model_mlr))
+```
+
+```{r}
+# Normality test (Anderson-Darling test)
+library(nortest)
+ad.test(residuals(model_mlr))
+```
+
+```{r}
+ggplot(data = data.frame(residuals = residuals(model_mlr)), aes(sample = residuals)) +
+  geom_qq() +
+  geom_qq_line() +
+  labs(title = "Q-Q Plot of Residuals", 
+       x = "Theoretical Quantiles", 
+       y = "Sample Quantiles")
+```
+
+```{r}
+ggplot(data = data.frame(residuals = residuals(model_mlr)), aes(x = residuals)) +
+  geom_histogram(binwidth = 0.5, fill = "steelblue", color = "black") +
+  labs(title = "Histogram of Residuals", 
+       x = "Residuals", 
+       y = "Frequency")
+```
+
+
+#### **Null and Alternative Hypotheses for Homoscedasticity:**
+- H0: The residuals of the model have constant variance (homoscedasticity).
+- H1: The residuals of the model do not have constant variance (heteroscedasticity).
+
+```{r}
+# Homoscedasticity test (Breusch-Pagan test)
+library(lmtest)
+bptest(model_mlr)
+```
+
+#### **Null and Alternative Hypotheses for Independence:**
+- H0: The residuals of the model are independent (no autocorrelation).
+- H1: The residuals of the model are not independent (autocorrelation present).
+
+```{r}
+# independence test (Durbin-Watson test)
+dwtest(model_mlr)
+```
+
+## **Marginal Elasticities**
+```{r}
+model_elasticity <- lm(log(CPI) ~ log(ExchRate) + log(LendIntRates), data = df)
+summary(model_elasticity)
+```
+
+### **The estimated equation is:**
+
+$$
+\ln(\text{CPI})=-0.7043+1.5149\ln(\text{ExchRate})-0.5520\ln(\text{LendIntRates}).
+$$
+
+Because **both the dependent and independent variables are in logarithms**, this is a **log-log (double-log) regression model**. The coefficients are interpreted as **elasticities**, **not multipliers**.
+
+or equivalently,
+
+$$
+CPI=e^{-0.7043}\times ExchRate^{1.5149}\times LendIntRates^{-0.5520}.
+$$
+
+## **Interpretation of the coefficients**
+
+### **1. Exchange Rate Elasticity**
+
+The coefficient is
+
+$$
+\beta_1=1.5149.
+$$
+
+Interpretation:
+
+Holding lending interest rates constant, a **1% increase in the exchange rate** is associated with approximately a **1.515% increase in the Consumer Price Index (CPI)**.
+
+Since
+
+$$
+1.515>1,
+$$
+
+CPI is **elastic** with respect to the exchange rate.
+
+This suggests that exchange rate depreciation has a more-than-proportional effect on inflation.
+
+### **2. Lending Interest Rate Elasticity**
+
+The coefficient is
+
+$$
+\beta_2=-0.5520.
+$$
+
+Interpretation:
+
+Holding exchange rates constant, a **1% increase in lending interest rates** is associated with approximately a **0.552% decrease in CPI**.
+
+This relationship is **inelastic** because
+
+$$
+|{-0.552}|<1.
+$$
+
+Economically, higher lending rates reduce borrowing and aggregate demand, thereby lowering inflationary pressures.
+
+## **Statistical significance**
+
+### Exchange Rate
+
+$$
+p<0.001
+$$
+
+Highly significant.
+
+There is very strong evidence that exchange rate movements affect CPI.
+
+### **Lending Interest Rate**
+
+$$
+p=0.000544
+$$
+
+Also highly significant.
+
+Higher lending rates significantly reduce inflation.
+
+### **Goodness of fit**
+
+#### **Multiple (R^2)**
+
+$$
+R^2=0.9348
+$$
+
+#### **Interpretation:**
+
+Approximately **93.48%** of the variation in CPI is explained jointly by exchange rates and lending interest rates.
+
+#### **Adjusted (R^2)**
+
+$$
+0.9291
+$$
+
+Since it is very close to (R^2), the model is not overfitting.
+
+### **Overall model significance**
+
+The F-statistic is
+
+$$
+F=164.8
+$$
+
+with
+
+$$
+p=2.317\times10^{-14}.
+$$
+
+#### **Interpretation:**
+
+The model is highly statistically significant, indicating that the explanatory variables jointly provide substantial explanatory power for CPI.
+
+#### **What can you compute from this model?**
+
+Unlike a consumption model, **you cannot compute the Keynesian multiplier**
+
+$$
+k=\frac{1}{1-MPC},
+$$
+
+because:
+
+* there is **no consumption variable**,
+* there is **no income variable**, and
+* the coefficients are **elasticities**, not marginal propensities to consume.
+
+Instead, you obtain:
+
+* Exchange rate elasticity of inflation = **1.515**
+* Lending interest rate elasticity of inflation = **−0.552**
+* Overall explanatory power ((R^2))
+* Statistical significance of each determinant
+* Predictive equation for CPI
+* Evidence on exchange rate pass-through and the effect of monetary policy (through lending rates)
+
+#### **A suitable interpretation for a research paper**
+
+The estimated double-log regression model indicates that the exchange rate has a positive and statistically significant effect on inflation. Specifically, a 1% increase in the exchange rate is associated with an estimated 1.515% increase in the Consumer Price Index (CPI), holding lending interest rates constant. This suggests a highly elastic exchange rate pass-through to domestic prices. Conversely, lending interest rates have a negative and statistically significant effect on inflation, with a 1% increase in lending rates associated with an estimated 0.552% decrease in CPI. The model explains approximately 93.5% of the variation in CPI ((R^2 = 0.9348)), and the overall regression is highly significant ((F = 164.8), (p < 0.001)), indicating that exchange rates and lending interest rates jointly provide a strong explanation of inflation dynamics in the sample.
+
+## **Demand Analysis**
+```{r}
+set.seed(123)
+
+n <- 100
+
+Price      <- runif(n, 8, 20)
+Income     <- runif(n, 20000, 80000)
+SubPrice   <- runif(n, 10, 25)
+CompPrice  <- runif(n, 3, 10)
+
+# Demand generated from an economic relationship
+Quantity <- exp(8 -
+                1.25*log(Price) +
+                0.80*log(Income) +
+                0.55*log(SubPrice) -
+                0.45*log(CompPrice) +
+                rnorm(n,0,0.15))
+
+data <- data.frame(
+  Quantity,
+  Price,
+  Income,
+  SubPrice,
+  CompPrice
+)
+
+head(data)
+```
+
+```{r}
+write.csv(data, "demand_data.csv", row.names = FALSE)
+```
+
+```{r}
+data <- read.csv("demand_data.csv")
+head(data)
+```
+
+### **Estimate the Linear Model**
+```{r}
+model <- lm(log(Quantity) ~
+              log(Price) +
+              log(Income) +
+              log(SubPrice) +
+              log(CompPrice),
+            data=data)
+
+summary(model)
+```
+
+These are excellent results for illustrating **demand elasticity**. Since you estimated a **double-log demand model**, every slope coefficient is an elasticity. This makes the model ideal for teaching and reporting economic concepts.
+
+Your estimated model is
+
+$$
+\ln(Q)=8.194-1.139\ln(P)+0.753\ln(Y)+0.537\ln(P_s)-0.407\ln(P_c)
+$$
+
+where:
+
+* (Q) = Quantity demanded
+* (P) = Price of the good
+* (Y) = Consumer income
+* (P_s) = Price of substitute goods
+* (P_c) = Price of complementary goods
+
+### **1. Price Elasticity of Demand**
+
+The estimated own-price elasticity is
+
+$$
+E_p=-1.139.
+$$
+
+### **Interpretation**
+
+Holding income, substitute prices, and complementary goods' prices constant, a **1% increase in the price of the good decreases quantity demanded by approximately 1.139%**.
+
+Since
+
+$$
+|E_p|=1.139>1,
+$$
+
+the demand is **price elastic**. Consumers are relatively responsive to price changes.
+
+### **Economic implication**
+
+A price increase is likely to reduce total revenue because the percentage decline in quantity demanded exceeds the percentage increase in price.
+
+### **2. Income Elasticity of Demand**
+
+The estimated income elasticity is
+
+$$
+E_Y=0.753.
+$$
+
+### **Interpretation**
+
+Holding other variables constant, a **1% increase in consumer income increases quantity demanded by approximately 0.753%**.
+
+Since
+
+$$
+0<E_Y<1,
+$$
+
+the product is a **normal necessity**.
+
+### **Economic implication**
+
+Demand increases as consumers become wealthier, but at a slower rate than income growth.
+
+### **3. Cross-Price Elasticity (Substitute Goods)**
+
+The estimated elasticity is
+
+$$
+E_{Sub}=0.537.
+$$
+
+### **Interpretation**
+
+A **1% increase in the price of a substitute good increases demand for this product by approximately 0.537%**, holding other variables constant.
+
+Because
+
+$$
+E_{Sub}>0,
+$$
+
+the goods are **substitutes**.
+
+### **Examples**
+
+* Coca-Cola and Pepsi
+* Tea and Coffee
+* Butter and Margarine
+
+### **Economic implication**
+
+If competitors raise their prices, consumers switch to your product.
+
+### **4. Cross-Price Elasticity (Complementary Goods)**
+
+The estimated elasticity is
+
+$$
+E_{Comp}=-0.407.
+$$
+
+### **Interpretation**
+
+A **1% increase in the price of a complementary good decreases demand for this product by approximately 0.407%**, holding other factors constant.
+
+Because
+
+$$
+E_{Comp}<0,
+$$
+
+the goods are **complements**.
+
+### **Examples**
+
+* Cars and fuel
+* Printers and ink cartridges
+* Bread and butter
+
+### **Economic implication**
+
+An increase in the price of a complementary product reduces demand for the focal product.
+
+#### **5. Statistical Significance**
+
+All explanatory variables have p-values less than 0.001, indicating that price, income, substitute prices, and complementary goods' prices all have statistically significant effects on quantity demanded.
+
+### **6. Model Fit**
+
+The coefficient of determination is
+
+$$
+R^2=0.9104.
+$$
+
+### **Interpretation**
+
+Approximately **91.04%** of the variation in quantity demanded is explained by the four explanatory variables.
+
+The adjusted (R^2) of 0.9066 indicates that the model retains very strong explanatory power after accounting for the number of predictors.
+
+### **7. Overall Model Significance**
+
+The overall regression is highly significant:
+
+* (F = 241.3)
+* (p < 0.001)
+
+This indicates that the explanatory variables jointly provide substantial explanatory power for explaining demand.
+
+### **Summary Table**
+
+| Variable         | Elasticity | Economic Interpretation                         | Classification          |
+| ---------------- | ---------: | ----------------------------------------------- | ----------------------- |
+| Price            | **−1.139** | 1% ↑ in price → 1.139% ↓ in demand              | **Elastic demand**      |
+| Income           |  **0.753** | 1% ↑ in income → 0.753% ↑ in demand             | **Normal necessity**    |
+| Substitute Price |  **0.537** | 1% ↑ in substitute's price → 0.537% ↑ in demand | **Substitute goods**    |
+| Complement Price | **−0.407** | 1% ↑ in complement's price → 0.407% ↓ in demand | **Complementary goods** |
+
+The model demonstrates several fundamental concepts in demand analysis within a single regression:
+
+* ✅ Demand function estimation
+* ✅ Own-price elasticity of demand
+* ✅ Income elasticity of demand
+* ✅ Cross-price elasticity of demand (substitutes)
+* ✅ Cross-price elasticity of demand (complements)
+* ✅ Elastic vs. inelastic demand
+* ✅ Normal vs. inferior goods (if income elasticity were negative)
+* ✅ Statistical significance (t-tests and p-values)
+* ✅ Overall model significance (F-test)
+* ✅ Goodness of fit ((R^2) and Adjusted (R^2))
+
+Because it captures nearly all of the core elasticity concepts in one framework, this type of double-log demand model is widely used in econometrics and is an excellent example for classroom demonstrations, assignments, and applied research.
+
+## **Consumption and Income Example**
+```{r}
+df2 <- read.csv("income.csv")
+head(df2, 10)
+```
+
+## **Simple Linear Model**
+### **Estimate the Impact of Income on Consumption**
+```{r}
+model2 <- lm(Consumption ~ Income, data = df2)
+summary(model2)
+```
+
+### **Hypothesis for the Overall Significance of the Model (F-test)**
+> Null hypothesis: The null model is better than the fitted model (the model does not explain a significant portion of the variance in consumption).
+
+> Alternative hypothesis: The fitted model is better than the null model (the model explains a significant portion of the variance in consumption).
+
+```{r}
+library(report)
+report(model2)
+```
+
+### **Estimate the  Long-run Consumption Model**
+```{r}
+model3 <- lm(Consumption ~ Income-1, data = df2)
+summary(model3)
+```
+
+
+
+

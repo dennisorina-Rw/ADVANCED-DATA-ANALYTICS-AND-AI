@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediacrest Training College</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.7;
+        }
+        h1 {
+            color: #1a237e;
+            border-bottom: 3px solid #1a237e;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #283593;
+            margin-top: 40px;
+            border-left: 5px solid #3f51b5;
+            padding-left: 12px;
+        }
+        h3 {
+            color: #37474f;
+            margin-top: 25px;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+        code {
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+        .note {
+            background-color: #e3f2fd;
+            border-left: 5px solid #1976d2;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .hypothesis {
+            background-color: #fff3e0;
+            border-left: 5px solid #f57c00;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .warning {
+            background-color: #fce4ec;
+            border-left: 5px solid #c62828;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .success {
+            background-color: #e8f5e9;
+            border-left: 5px solid #2e7d32;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #bdbdbd;
+            padding: 10px 14px;
+            text-align: left;
+        }
+        th {
+            background-color: #3f51b5;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .number { color: #b5cea8; }
+        .builtin { color: #dcdcaa; }
+        .section-divider {
+            border: none;
+            border-top: 2px dashed #9e9e9e;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Mediacrest Training College-Nairobi Kenya</h1>
+<h2>Advanced Data Analysis and AI - Week Two- Session Two</h2>
+<p><strong>Complete Python Script for Regression Analysis and Diagnostic Tests</strong></p>
+<p><strong>Trainer: Lumumba W.Victor</strong</p>
+<p><em>Date: August 18, 2026</em></p>
+
+<div class="note">
+    <strong>📦 Installation Requirements:</strong><br>
+    Run the following in your terminal before executing the script:<br>
+    <code>pip install pandas numpy matplotlib seaborn scipy statsmodels</code>
+</div>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 0: Import Libraries and Setup</h2>
+<!-- ============================================================ -->
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 0: IMPORT LIBRARIES AND SETUP</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+<span class="keyword">import</span> scipy.stats <span class="keyword">as</span> stats
+<span class="keyword">import</span> statsmodels.api <span class="keyword">as</span> sm
+<span class="keyword">import</span> statsmodels.formula.api <span class="keyword">as</span> smf
+<span class="keyword">from</span> statsmodels.stats.outliers_influence <span class="keyword">import</span> variance_inflation_factor
+<span class="keyword">from</span> statsmodels.stats.diagnostic <span class="keyword">import</span> het_breuschpagan
+<span class="keyword">from</span> statsmodels.stats.stattools <span class="keyword">import</span> durbin_watson
+<span class="keyword">import</span> warnings
+warnings.filterwarnings(<span class="string">'ignore'</span>)
+
+<span class="comment"># Set visualization style (equivalent to ggplot2 theme)</span>
+sns.set_theme(style=<span class="string">"whitegrid"</span>)
+plt.rcParams[<span class="string">'figure.figsize'</span>] = (<span class="number">9</span>, <span class="number">6</span>)
+
+print(<span class="string">"All libraries imported successfully."</span>)
+</code></pre>
+
+<div class="note">
+    <strong>📝 Note:</strong> In R, you load packages with <code>library()</code>. In Python, we use <code>import</code>.
+    The <code>statsmodels.formula.api</code> module allows R-style formula strings like <code>'y ~ x1 + x2'</code>.
+</div>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 1: Correlation Analysis (mtcars Dataset)</h2>
+<!-- ============================================================ -->
+
+<h3>1.1 Load and Explore mtcars</h3>
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 1: CORRELATION ANALYSIS (mtcars dataset)</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Load mtcars dataset (equivalent to R's data(mtcars))</span>
+url_mtcars = <span class="string">"https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/csv/datasets/mtcars.csv"</span>
+mtcars = pd.read_csv(url_mtcars, index_col=<span class="number">0</span>)
+
+<span class="comment"># head(mtcars) equivalent</span>
+print(<span class="string">"--- head(mtcars) ---"</span>)
+print(mtcars.head())
+
+<span class="comment"># str(mtcars) equivalent</span>
+print(<span class="string">"\n--- str(mtcars) ---"</span>)
+print(mtcars.info())
+print(mtcars.describe())
+</code></pre>
+
+<h3>1.2 Scatter Plot: Weight vs MPG</h3>
+
+<pre><code><span class="comment"># Scatter Plot with regression line (equivalent to ggplot + geom_point + geom_smooth)</span>
+plt.figure(figsize=(<span class="number">9</span>, <span class="number">6</span>))
+sns.regplot(x=<span class="string">'wt'</span>, y=<span class="string">'mpg'</span>, data=mtcars,
+            scatter_kws={<span class="string">'color'</span>: <span class="string">'steelblue'</span>, <span class="string">'s'</span>: <span class="number">40</span>},
+            line_kws={<span class="string">'color'</span>: <span class="string">'red'</span>})
+plt.title(<span class="string">"Relationship between Weight and MPG"</span>)
+plt.xlabel(<span class="string">"Weight (1000 lbs)"</span>)
+plt.ylabel(<span class="string">"Miles per Gallon"</span>)
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+<h3>1.3 Pearson Correlation</h3>
+
+<div class="hypothesis">
+    <strong>Hypotheses for Correlation Test:</strong><br>
+    <strong>H₀:</strong> There is no significant correlation between weight and miles per gallon (r = 0).<br>
+    <strong>H₁:</strong> There is a significant correlation between weight and miles per gallon (r ≠ 0).<br><br>
+    <strong>Decision Rule:</strong> If the p-value is less than the significance level (commonly set at 0.05),
+    we reject the null hypothesis. Otherwise, we fail to reject the null hypothesis.
+</div>
+
+<pre><code><span class="comment"># Pearson Correlation (equivalent to cor(mtcars$wt, mtcars$mpg, method="pearson"))</span>
+r_pearson, p_pearson = stats.pearsonr(mtcars[<span class="string">'wt'</span>], mtcars[<span class="string">'mpg'</span>])
+print(<span class="string">f"Pearson r: {r_pearson:.5f}"</span>)
+print(<span class="string">f"p-value:   {p_pearson:.2e}"</span>)
+
+<span class="comment"># cor.test equivalent</span>
+print(<span class="string">"\n--- Pearson Correlation Test ---"</span>)
+print(<span class="string">f"  t-statistic: {r_pearson * np.sqrt((len(mtcars)-2)/(1-r_pearson**2)):.4f}"</span>)
+print(<span class="string">f"  df: {len(mtcars) - 2}"</span>)
+print(<span class="string">f"  p-value: {p_pearson:.2e}"</span>)
+print(<span class="string">f"  alternative hypothesis: true correlation is not equal to 0"</span>)
+</code></pre>
+
+<h3>1.4 Spearman Correlation (Non-parametric)</h3>
+
+<pre><code><span class="comment"># Spearman Correlation (equivalent to cor(mtcars$wt, mtcars$mpg, method="spearman"))</span>
+<span class="comment"># R output: -0.886422, p-value = 1.488e-11</span>
+r_spearman, p_spearman = stats.spearmanr(mtcars[<span class="string">'wt'</span>], mtcars[<span class="string">'mpg'</span>])
+print(<span class="string">f"\n--- Spearman's Rank Correlation ---"</span>)
+print(<span class="string">f"  rho: {r_spearman:.6f}"</span>)
+print(<span class="string">f"  p-value: {p_spearman:.2e}"</span>)
+print(<span class="string">f"  alternative hypothesis: true rho is not equal to 0"</span>)
+</code></pre>
+
+<h3>1.5 Correlation Matrix and Heatmap</h3>
+
+<pre><code><span class="comment"># Correlation Matrix (equivalent to cor(mtcars[,c("mpg","cyl","disp","hp","wt")]))</span>
+num_vars = mtcars[[<span class="string">'mpg'</span>, <span class="string">'cyl'</span>, <span class="string">'disp'</span>, <span class="string">'hp'</span>, <span class="string">'wt'</span>]]
+corr_matrix = num_vars.corr(method=<span class="string">'pearson'</span>)
+print(<span class="string">"\n--- Correlation Matrix ---"</span>)
+print(corr_matrix.round(<span class="number">3</span>))
+
+<span class="comment"># Heatmap (equivalent to corrplot in R)</span>
+plt.figure(figsize=(<span class="number">8</span>, <span class="number">6</span>))
+sns.heatmap(corr_matrix, annot=<span class="keyword">True</span>, cmap=<span class="string">'coolwarm'</span>, fmt=<span class="string">".2f"</span>,
+            linewidths=<span class="number">0.5</span>, vmin=-<span class="number">1</span>, vmax=<span class="number">1</span>, cbar=<span class="keyword">True</span>)
+plt.title(<span class="string">"Pairwise Correlation Plot"</span>)
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 2: Simple Linear Regression (SLR) – mtcars</h2>
+<!-- ============================================================ -->
+
+<div class="hypothesis">
+    <strong>Hypotheses for Overall Model Significance (F-test):</strong><br>
+    <strong>H₀:</strong> The overall regression model is not statistically significant
+    (the model does not explain a significant portion of the variance in miles per gallon).<br>
+    <strong>H₁:</strong> The overall regression model is statistically significant
+    (the model explains a significant portion of the variance in miles per gallon).
+</div>
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 2: SIMPLE LINEAR REGRESSION (SLR) - mpg ~ wt</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Fit SLR model (equivalent to lm(mpg ~ wt, data = mtcars))</span>
+model_slr = smf.ols(<span class="string">'mpg ~ wt'</span>, data=mtcars).fit()
+
+<span class="comment"># summary(model_slr) equivalent</span>
+print(<span class="string">"\n--- SLR Model Summary (mpg ~ wt) ---"</span>)
+print(model_slr.summary())
+
+<span class="comment"># 95% Confidence Intervals for Coefficients</span>
+print(<span class="string">"\n--- 95% Confidence Intervals ---"</span>)
+print(model_slr.conf_int(alpha=<span class="number">0.05</span>))
+
+<span class="comment"># Prediction for a new car with wt = 3.5</span>
+<span class="comment"># (equivalent to predict(model_slr, newdata=data.frame(wt=3.5), interval="confidence"))</span>
+new_car = pd.DataFrame({<span class="string">'wt'</span>: [<span class="number">3.5</span>]})
+pred_slr = model_slr.get_prediction(new_car).summary_frame(alpha=<span class="number">0.05</span>)
+print(<span class="string">"\n--- Prediction for wt = 3.5 ---"</span>)
+print(pred_slr[[<span class="string">'mean'</span>, <span class="string">'mean_ci_lower'</span>, <span class="string">'mean_ci_upper'</span>, <span class="string">'obs_ci_lower'</span>, <span class="string">'obs_ci_upper'</span>]])
+</code></pre>
+
+<div class="note">
+    <strong>📝 Note:</strong> In R, <code>predict(..., interval="confidence")</code> gives the confidence interval for the
+    <em>mean response</em>, while <code>interval="prediction"</code> gives the prediction interval for a
+    <em>new observation</em>. In Python, <code>get_prediction().summary_frame()</code> returns both:
+    <code>mean_ci_*</code> = confidence interval, <code>obs_ci_*</code> = prediction interval.
+</div>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 3: Hypertension Data (SLR with Missing Data Handling)</h2>
+<!-- ============================================================ -->
+
+<h3>3.1 Load Data and Check Missing Values</h3>
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 3: HYPERTENSION DATA (htn_dat.csv)</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Load data (equivalent to htn <- read.csv("htn_dat.csv"))</span>
+htn = pd.read_csv(<span class="string">"htn_dat.csv"</span>)
+
+<span class="comment"># head(htn) equivalent</span>
+print(<span class="string">"--- head(htn) ---"</span>)
+print(htn.head())
+
+<span class="comment"># str(htn) equivalent</span>
+print(<span class="string">"\n--- Structure ---"</span>)
+print(htn.info())
+print(htn.describe())
+</code></pre>
+
+<h3>3.2 Missing Value Analysis</h3>
+
+<pre><code><span class="comment"># Check for missing values (equivalent to colSums(is.na(htn)))</span>
+print(<span class="string">"\n--- Missing Values Count ---"</span>)
+missing_count = htn.isnull().sum()
+print(missing_count)
+
+<span class="comment"># Detailed missing value table with percentages</span>
+<span class="comment"># (equivalent to the R data.frame with Missing_Count and Missing_Percentage)</span>
+missing_values = pd.DataFrame({
+    <span class="string">'Variable'</span>: htn.columns,
+    <span class="string">'Missing_Count'</span>: htn.isnull().sum().values,
+    <span class="string">'Missing_Percentage'</span>: (htn.isnull().mean() * <span class="number">100</span>).values
+})
+print(<span class="string">"\n--- Missing Values Summary ---"</span>)
+print(missing_values.to_string(index=<span class="keyword">False</span>))
+</code></pre>
+
+<div class="note">
+    <strong>📝 Note:</strong> The R output shows: BMI has 670 missing (13.4%), married has 164 (3.3%),
+    hgb_centered has 1394, adv_HIV has 1961, log_creat_centered has 1538.
+    Variables like ID, DBP, SBP, age, male.gender, survtime, event, arv_naive, urban.clinic,
+    IPW_weight, SBP_ge120 have 0 missing values.
+</div>
+
+<h3>3.3 Complete Case Analysis</h3>
+
+<pre><code><span class="comment"># Approach 1: Remove rows with missing values (complete case analysis)</span>
+<span class="comment"># (equivalent to comp_data <- na.omit(htn))</span>
+comp_data = htn.dropna()
+
+print(<span class="string">f"\nRows after removing NAs: {len(comp_data)}"</span>)
+print(<span class="string">"--- head(comp_data) ---"</span>)
+print(comp_data.head())
+
+<span class="comment"># Verify no missing values remain</span>
+print(<span class="string">"\n--- Verify: Missing values in comp_data ---"</span>)
+print(comp_data.isnull().sum())
+</code></pre>
+
+<h3>3.4 Scatter Plot: BMI vs SBP</h3>
+
+<pre><code><span class="comment"># Scatter Plot (equivalent to ggplot + geom_point + geom_smooth(method="lm"))</span>
+plt.figure(figsize=(<span class="number">9</span>, <span class="number">6</span>))
+sns.regplot(x=<span class="string">'BMI'</span>, y=<span class="string">'SBP'</span>, data=comp_data,
+            scatter_kws={<span class="string">'color'</span>: <span class="string">'steelblue'</span>, <span class="string">'s'</span>: <span class="number">8</span>},
+            line_kws={<span class="string">'color'</span>: <span class="string">'red'</span>})
+plt.title(<span class="string">"Relationship between BMI and SBP"</span>)
+plt.xlabel(<span class="string">"Body Mass Index"</span>)
+plt.ylabel(<span class="string">"Systolic Blood Pressure"</span>)
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+<h3>3.5 SLR Model: SBP ~ BMI</h3>
+
+<pre><code><span class="comment"># Fit SLR model (equivalent to lm(SBP ~ BMI, data = comp_data))</span>
+model_htn = smf.ols(<span class="string">'SBP ~ BMI'</span>, data=comp_data).fit()
+print(<span class="string">"\n--- SLR Model Summary (SBP ~ BMI) ---"</span>)
+print(model_htn.summary())
+
+<span class="comment"># Prediction for a new patient: weight=75 kg, height=1.75 m</span>
+<span class="comment"># BMI = 75 / (1.75^2) = 24.49</span>
+bmi_new = <span class="number">75</span> / (<span class="number">1.75</span> ** <span class="number">2</span>)
+new_person = pd.DataFrame({<span class="string">'BMI'</span>: [bmi_new]})
+pred_htn = model_htn.get_prediction(new_person).summary_frame(alpha=<span class="number">0.05</span>)
+print(<span class="string">f"\n--- Prediction for BMI = {bmi_new:.2f} ---"</span>)
+print(pred_htn[[<span class="string">'mean'</span>, <span class="string">'mean_ci_lower'</span>, <span class="string">'mean_ci_upper'</span>, <span class="string">'obs_ci_lower'</span>, <span class="string">'obs_ci_upper'</span>]])
+</code></pre>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 4: Multiple Linear Regression (MLR) – mtcars</h2>
+<!-- ============================================================ -->
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 4: MULTIPLE LINEAR REGRESSION (MLR) - mpg ~ wt + hp</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Fit MLR model (equivalent to lm(mpg ~ wt + hp, data = mtcars))</span>
+model_mlr = smf.ols(<span class="string">'mpg ~ wt + hp'</span>, data=mtcars).fit()
+print(<span class="string">"\n--- MLR Model Summary (mpg ~ wt + hp) ---"</span>)
+print(model_mlr.summary())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Expected R Output:</strong><br>
+    Coefficients: Intercept = 37.22727, wt = -3.87783, hp = -0.03177<br>
+    Residual standard error: 2.593 on 29 degrees of freedom<br>
+    Multiple R-squared: 0.8268, Adjusted R-squared: 0.8148<br>
+    F-statistic: 69.21 on 2 and 29 DF, p-value: 9.109e-12
+</div>
+
+<h3>4.1 Cook's Distance and Influential Observations</h3>
+
+<pre><code><span class="comment"># Calculate Cook's distance (equivalent to cooks.distance(model_mlr))</span>
+influence = model_mlr.get_influence()
+cooks_d = influence.cooks_distance[<span class="number">0</span>]
+
+<span class="comment"># Identify influential observations (equivalent to which(cooks_distance > 4/nrow(mtcars)))</span>
+threshold = <span class="number">4</span> / len(mtcars)
+influential_obs = np.where(cooks_d > threshold)[<span class="number">0</span>]
+print(<span class="string">f"\nThreshold (4/n): {threshold:.4f}"</span>)
+print(<span class="string">f"Influential observation indices: {influential_obs}"</span>)
+print(<span class="string">f"Car names: {mtcars.index[influential_obs].tolist()}"</span>)
+
+<span class="comment"># Plot Cook's Distance</span>
+plt.figure(figsize=(<span class="number">9</span>, <span class="number">5</span>))
+plt.stem(range(len(cooks_d)), cooks_d, markerfmt=<span class="string">'o'</span>, basefmt=<span class="string">'-'</span>)
+plt.axhline(y=threshold, color=<span class="string">'red'</span>, linestyle=<span class="string">'--'</span>, label=<span class="string">f'Threshold = {threshold:.3f}'</span>)
+plt.xlabel(<span class="string">"Observation Index"</span>)
+plt.ylabel(<span class="string">"Cook's Distance"</span>)
+plt.title(<span class="string">"Cook's Distance Plot"</span>)
+plt.legend()
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+<h3>4.2 Refit Model Without Influential Observations</h3>
+
+<pre><code><span class="comment"># Remove influential observations (equivalent to mtcars[-influential_obs, ])</span>
+mtcars_no_influential = mtcars.drop(mtcars.index[influential_obs])
+
+<span class="comment"># Refit model (equivalent to lm(mpg ~ wt + hp, data = mtcars_no_influential))</span>
+model_mlr_no_inf = smf.ols(<span class="string">'mpg ~ wt + hp'</span>, data=mtcars_no_influential).fit()
+print(<span class="string">"\n--- MLR Model Summary (No Influential Obs) ---"</span>)
+print(model_mlr_no_inf.summary())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Expected R Output (after removal):</strong><br>
+    Intercept = 36.337502, wt = -3.751735, hp = -0.033238<br>
+    Residual standard error: 1.767 on 25 degrees of freedom<br>
+    Multiple R-squared: 0.8917, Adjusted R-squared: 0.883
+</div>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 5: Regression Diagnostics – Normality</h2>
+<!-- ============================================================ -->
+
+<div class="hypothesis">
+    <strong>Null and Alternative Hypotheses for Normality:</strong><br>
+    <strong>H₀:</strong> The residuals of the model are normally distributed.<br>
+    <strong>H₁:</strong> The residuals of the model are not normally distributed.
+</div>
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 5: NORMALITY TESTS</span>
+<span class="comment"># =============================================================================</span>
+
+residuals_mlr = model_mlr.resid
+
+<span class="comment"># Shapiro-Wilk Test (equivalent to shapiro.test(residuals(model_mlr)))</span>
+<span class="comment"># R output: W = 0.92792, p-value = 0.03427</span>
+stat_sw, p_sw = stats.shapiro(residuals_mlr)
+print(<span class="string">f"\n--- Shapiro-Wilk Normality Test ---"</span>)
+print(<span class="string">f"  W = {stat_sw:.5f}"</span>)
+print(<span class="string">f"  p-value = {p_sw:.5f}"</span>)
+
+<span class="comment"># Anderson-Darling Test (equivalent to ad.test(residuals(model_mlr)) from nortest package)</span>
+<span class="comment"># R output: A = 0.66581, p-value = 0.07456</span>
+ad_result = stats.anderson(residuals_mlr, dist=<span class="string">'norm'</span>)
+print(<span class="string">f"\n--- Anderson-Darling Normality Test ---"</span>)
+print(<span class="string">f"  A = {ad_result.statistic:.5f}"</span>)
+<span class="comment"># Note: scipy's anderson() gives critical values at different significance levels</span>
+<span class="comment"># For p-value approximation, we use the 5% critical value comparison</span>
+print(<span class="string">f"  Critical values: {ad_result.critical_values}"</span>)
+print(<span class="string">f"  Significance levels: {ad_result.significance_level}"</span>)
+<span class="keyword">if</span> ad_result.statistic > ad_result.critical_values[<span class="number">2</span>]:  <span class="comment"># 5% level</span>
+    print(<span class="string">"  Decision: Reject H0 at 5% significance (not normal)"</span>)
+<span class="keyword">else</span>:
+    print(<span class="string">"  Decision: Fail to reject H0 at 5% significance (normal)"</span>)
+</code></pre>
+
+<h3>5.1 Q-Q Plot</h3>
+
+<pre><code><span class="comment"># Q-Q Plot (equivalent to ggplot + geom_qq() + geom_qq_line())</span>
+fig = sm.qqplot(residuals_mlr, line=<span class="string">'s'</span>, fit=<span class="keyword">True</span>)
+plt.title(<span class="string">"Q-Q Plot of Residuals"</span>)
+plt.xlabel(<span class="string">"Theoretical Quantiles"</span>)
+plt.ylabel(<span class="string">"Sample Quantiles"</span>)
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+<h3>5.2 Histogram of Residuals</h3>
+
+<pre><code><span class="comment"># Histogram (equivalent to ggplot + geom_histogram(binwidth=0.5, fill="steelblue"))</span>
+plt.figure(figsize=(<span class="number">9</span>, <span class="number">5</span>))
+sns.histplot(residuals_mlr, bins=<span class="number">12</span>, kde=<span class="keyword">True</span>,
+             color=<span class="string">'steelblue'</span>, edgecolor=<span class="string">'black'</span>)
+plt.title(<span class="string">"Histogram of Residuals"</span>)
+plt.xlabel(<span class="string">"Residuals"</span>)
+plt.ylabel(<span class="string">"Frequency"</span>)
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 6: Regression Diagnostics – Homoscedasticity</h2>
+<!-- ============================================================ -->
+
+<div class="hypothesis">
+    <strong>Hypotheses for Homoscedasticity:</strong><br>
+    <strong>H₀:</strong> The residuals of the model have constant variance (homoscedasticity).<br>
+    <strong>H₁:</strong> The residuals of the model do not have constant variance (heteroscedasticity).
+</div>
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 6: HOMOSCEDASTICITY TEST (Breusch-Pagan)</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Breusch-Pagan Test (equivalent to bptest(model_mlr) from lmtest package)</span>
+<span class="comment"># R output for mtcars MLR: BP = 0.88072, df = 2, p-value = 0.6438</span>
+bp_stat, bp_pval, bp_fval, bp_fpval = het_breuschpagan(residuals_mlr, model_mlr.model.exog)
+print(<span class="string">f"\n--- Breusch-Pagan Test (mtcars MLR) ---"</span>)
+print(<span class="string">f"  BP statistic: {bp_stat:.5f}"</span>)
+print(<span class="string">f"  p-value: {bp_pval:.4f}"</span>)
+print(<span class="string">f"  df: {model_mlr.model.exog.shape[1] - 1}"</span>)
+
+<span class="keyword">if</span> bp_pval < <span class="number">0.05</span>:
+    print(<span class="string">"  Decision: Reject H0 → Heteroscedasticity detected"</span>)
+<span class="keyword">else</span>:
+    print(<span class="string">"  Decision: Fail to reject H0 → Homoscedasticity assumed"</span>)
+</code></pre>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 7: Multicollinearity (VIF)</h2>
+<!-- ============================================================ -->
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 7: MULTICOLLINEARITY (VIF)</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># VIF (equivalent to vif(model_mlr) from car package)</span>
+X_vif = mtcars[[<span class="string">'wt'</span>, <span class="string">'hp'</span>]].copy()
+X_vif = sm.add_constant(X_vif)
+
+vif_data = pd.DataFrame()
+vif_data[<span class="string">"Variable"</span>] = [<span class="string">'wt'</span>, <span class="string">'hp'</span>]
+vif_data[<span class="string">"VIF"</span>] = [
+    variance_inflation_factor(X_vif.values, <span class="number">1</span>),  <span class="comment"># wt (skip const at index 0)</span>
+    variance_inflation_factor(X_vif.values, <span class="number">2</span>)   <span class="comment"># hp</span>
+]
+print(<span class="string">"\n--- VIF Values (mtcars MLR) ---"</span>)
+print(vif_data)
+</code></pre>
+
+<div class="note">
+    <strong>📝 Note:</strong> VIF > 10 indicates serious multicollinearity. VIF between 5-10 suggests moderate
+    multicollinearity. VIF < 5 is generally acceptable.
+</div>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 8: US Macroeconomic Variables (economics dataset)</h2>
+<!-- ============================================================ -->
+
+<h3>8.1 Load and Explore</h3>
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 8: US MACROECONOMIC VARIABLES (ggplot2::economics)</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Load economics dataset (equivalent to data("economics") from ggplot2)</span>
+url_econ = <span class="string">"https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/csv/ggplot2/economics.csv"</span>
+economics = pd.read_csv(url_econ)
+
+<span class="comment"># head(economics) and tail(economics)</span>
+print(<span class="string">"--- head(economics) ---"</span>)
+print(economics[[<span class="string">'date'</span>, <span class="string">'pce'</span>, <span class="string">'pop'</span>, <span class="string">'psavert'</span>, <span class="string">'uempmed'</span>, <span class="string">'unemploy'</span>]].head())
+
+print(<span class="string">"\n--- tail(economics) ---"</span>)
+print(economics[[<span class="string">'date'</span>, <span class="string">'pce'</span>, <span class="string">'pop'</span>, <span class="string">'psavert'</span>, <span class="string">'uempmed'</span>, <span class="string">'unemploy'</span>]].tail())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Dataset Description:</strong> This dataset was produced from US economic time series data
+    available from <a href="https://fred.stlouisfed.org/">https://fred.stlouisfed.org/</a>.<br>
+    <strong>Variables:</strong><br>
+    • <code>date</code>: Month of data collection<br>
+    • <code>pce</code>: Personal consumption expenditures, in billions of dollars<br>
+    • <code>pop</code>: Total population, in thousands<br>
+    • <code>psavert</code>: Personal savings rate<br>
+    • <code>uempmed</code>: Median duration of unemployment, in weeks<br>
+    • <code>unemploy</code>: Number of unemployed, in thousands
+</div>
+
+<h3>8.2 MLR: psavert ~ pce + unemploy + pop + uempmed</h3>
+
+<pre><code><span class="comment"># Fit MLR model (equivalent to lm(psavert ~ pce + unemploy + pop + uempmed, data=economics))</span>
+model_econ = smf.ols(<span class="string">'psavert ~ pce + unemploy + pop + uempmed'</span>, data=economics).fit()
+print(<span class="string">"\n--- Macroeconomics MLR Summary ---"</span>)
+print(model_econ.summary())
+
+<span class="comment"># Normality test on this model</span>
+resid_econ = model_econ.resid
+stat_sw_econ, p_sw_econ = stats.shapiro(resid_econ)
+print(<span class="string">f"\nShapiro-Wilk: W={stat_sw_econ:.5f}, p-value={p_sw_econ:.5f}"</span>)
+
+<span class="comment"># Breusch-Pagan test</span>
+<span class="comment"># R output: BP = 50.022, df = 4, p-value = 0.0000000003573</span>
+bp_econ = het_breuschpagan(resid_econ, model_econ.model.exog)
+print(<span class="string">f"Breusch-Pagan: BP={bp_econ[0]:.3f}, p-value={bp_econ[1]:.2e}"</span>)
+</code></pre>
+
+<h3>8.3 Log-Log Model (4 predictors)</h3>
+
+<pre><code><span class="comment"># Log-Log Model (equivalent to lm(log(psavert) ~ log(pce) + log(unemploy) + log(pop) + log(uempmed)))</span>
+model_econ_log = smf.ols(
+    <span class="string">'np.log(psavert) ~ np.log(pce) + np.log(unemploy) + np.log(pop) + np.log(uempmed)'</span>,
+    data=economics
+).fit()
+print(<span class="string">"\n--- Log-Log Macroeconomics MLR Summary (4 predictors) ---"</span>)
+print(model_econ_log.summary())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Expected R Output:</strong><br>
+    Residual standard error: 0.1702 on 569 degrees of freedom<br>
+    Multiple R-squared: 0.8019, Adjusted R-squared: 0.8005<br>
+    F-statistic: 575.9 on 4 and 569 DF, p-value: < 2.2e-16
+</div>
+
+<h3>8.4 Log-Log Model (3 predictors – without pop)</h3>
+
+<pre><code><span class="comment"># Log-Log Model without pop (equivalent to model_new in R)</span>
+<span class="comment"># lm(log(psavert) ~ log(pce) + log(unemploy) + log(uempmed), data = economics)</span>
+model_new = smf.ols(
+    <span class="string">'np.log(psavert) ~ np.log(pce) + np.log(unemploy) + np.log(uempmed)'</span>,
+    data=economics
+).fit()
+print(<span class="string">"\n--- Log-Log Model (3 predictors) Summary ---"</span>)
+print(model_new.summary())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Expected R Output:</strong><br>
+    Intercept = 1.49863, log(pce) = -0.47809, log(unemploy) = 0.48189, log(uempmed) = 0.08387<br>
+    Residual standard error: 0.1704 on 570 degrees of freedom<br>
+    Multiple R-squared: 0.8012, Adjusted R-squared: 0.8002<br>
+    F-statistic: 765.9 on 3 and 570 DF, p-value: < 2.2e-16
+</div>
+
+<h3>8.5 Diagnostics for model_new</h3>
+
+<pre><code><span class="comment"># Normality test for model_new</span>
+resid_new = model_new.resid
+stat_sw_new, p_sw_new = stats.shapiro(resid_new)
+print(<span class="string">f"\n--- Normality Test (model_new) ---"</span>)
+print(<span class="string">f"  Shapiro-Wilk: W={stat_sw_new:.5f}, p-value={p_sw_new:.5f}"</span>)
+
+ad_new = stats.anderson(resid_new, dist=<span class="string">'norm'</span>)
+print(<span class="string">f"  Anderson-Darling: A={ad_new.statistic:.4f}"</span>)
+
+<span class="comment"># Breusch-Pagan Test for model_new</span>
+<span class="comment"># R output: BP = 67.261, df = 3, p-value = 0.00000000000001646</span>
+bp_new = het_breuschpagan(resid_new, model_new.model.exog)
+print(<span class="string">f"\n--- Homoscedasticity Test (model_new) ---"</span>)
+print(<span class="string">f"  Breusch-Pagan: BP={bp_new[0]:.3f}, df=3, p-value={bp_new[1]:.2e}"</span>)
+
+<span class="comment"># VIF for model_new</span>
+<span class="comment"># R output: log(pce)=2.066333, log(unemploy)=3.802894, log(uempmed)=3.772870</span>
+X_vif_new = economics[[<span class="string">'pce'</span>, <span class="string">'unemploy'</span>, <span class="string">'uempmed'</span>]].copy()
+X_vif_new = np.log(X_vif_new)
+X_vif_new = sm.add_constant(X_vif_new)
+
+vif_new = pd.DataFrame()
+vif_new[<span class="string">"Variable"</span>] = [<span class="string">'log(pce)'</span>, <span class="string">'log(unemploy)'</span>, <span class="string">'log(uempmed)'</span>]
+vif_new[<span class="string">"VIF"</span>] = [
+    variance_inflation_factor(X_vif_new.values, <span class="number">1</span>),
+    variance_inflation_factor(X_vif_new.values, <span class="number">2</span>),
+    variance_inflation_factor(X_vif_new.values, <span class="number">3</span>)
+]
+print(<span class="string">"\n--- VIF (model_new) ---"</span>)
+print(vif_new)
+</code></pre>
+
+<div class="note">
+    <strong>📝 Note on Multicollinearity:</strong> All VIF values are below 5, indicating no serious
+    multicollinearity among log(pce), log(unemploy), and log(uempmed).
+</div>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 9: CPI Model (training model.csv)</h2>
+<!-- ============================================================ -->
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 9: CPI MODEL (training model.csv)</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Load data (equivalent to df <- read.csv("training model.csv"))</span>
+df = pd.read_csv(<span class="string">"training model.csv"</span>)
+print(<span class="string">"--- head(df) ---"</span>)
+print(df.head())
+
+<span class="comment"># Fit MLR: CPI ~ ExchRate + LendIntRates</span>
+model_cpi = smf.ols(<span class="string">'CPI ~ ExchRate + LendIntRates'</span>, data=df).fit()
+print(<span class="string">"\n--- CPI MLR Summary ---"</span>)
+print(model_cpi.summary())
+</code></pre>
+
+<h3>9.1 Cook's Distance and Influential Observations</h3>
+
+<pre><code><span class="comment"># Cook's Distance (equivalent to cooks.distance(model))</span>
+influence_cpi = model_cpi.get_influence()
+cooks_d_cpi = influence_cpi.cooks_distance[<span class="number">0</span>]
+
+<span class="comment"># Identify influential observations (R output: observation 26)</span>
+threshold_cpi = <span class="number">4</span> / len(df)
+influential_obs_cpi = np.where(cooks_d_cpi > threshold_cpi)[<span class="number">0</span>]
+print(<span class="string">f"\nThreshold: {threshold_cpi:.4f}"</span>)
+print(<span class="string">f"Influential observation indices: {influential_obs_cpi}"</span>)
+
+<span class="comment"># Remove influential observation and refit</span>
+<span class="comment"># (equivalent to df_no_influential <- df[-influential_obs, ])</span>
+df_no_influential = df.drop(df.index[influential_obs_cpi])
+
+model_cpi_no_inf = smf.ols(<span class="string">'CPI ~ ExchRate + LendIntRates'</span>, data=df_no_influential).fit()
+print(<span class="string">"\n--- CPI MLR Summary (No Influential Obs) ---"</span>)
+print(model_cpi_no_inf.summary())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Expected R Output (after removal):</strong><br>
+    Intercept = 12.1604, ExchRate = 1.1668, LendIntRates = -1.5004<br>
+    Residual standard error: 14.94 on 22 degrees of freedom<br>
+    Multiple R-squared: 0.8084, Adjusted R-squared: 0.791
+</div>
+
+<h3>9.2 Normality and Homoscedasticity Diagnostics</h3>
+
+<pre><code><span class="comment"># Normality test</span>
+resid_cpi = model_cpi.resid
+stat_sw_cpi, p_sw_cpi = stats.shapiro(resid_cpi)
+print(<span class="string">f"\n--- Normality (CPI model) ---"</span>)
+print(<span class="string">f"  Shapiro-Wilk: W={stat_sw_cpi:.5f}, p-value={p_sw_cpi:.5f}"</span>)
+
+ad_cpi = stats.anderson(resid_cpi, dist=<span class="string">'norm'</span>)
+print(<span class="string">f"  Anderson-Darling: A={ad_cpi.statistic:.4f}"</span>)
+
+<span class="comment"># Q-Q Plot</span>
+fig = sm.qqplot(resid_cpi, line=<span class="string">'s'</span>, fit=<span class="keyword">True</span>)
+plt.title(<span class="string">"Q-Q Plot of Residuals (CPI Model)"</span>)
+plt.xlabel(<span class="string">"Theoretical Quantiles"</span>)
+plt.ylabel(<span class="string">"Sample Quantiles"</span>)
+plt.tight_layout()
+plt.show()
+
+<span class="comment"># Histogram</span>
+plt.figure(figsize=(<span class="number">9</span>, <span class="number">5</span>))
+sns.histplot(resid_cpi, bins=<span class="number">10</span>, kde=<span class="keyword">True</span>, color=<span class="string">'steelblue'</span>, edgecolor=<span class="string">'black'</span>)
+plt.title(<span class="string">"Histogram of Residuals (CPI Model)"</span>)
+plt.xlabel(<span class="string">"Residuals"</span>)
+plt.ylabel(<span class="string">"Frequency"</span>)
+plt.tight_layout()
+plt.show()
+
+<span class="comment"># Breusch-Pagan Test</span>
+bp_cpi = het_breuschpagan(resid_cpi, model_cpi.model.exog)
+print(<span class="string">f"\n--- Homoscedasticity (CPI model) ---"</span>)
+print(<span class="string">f"  Breusch-Pagan: BP={bp_cpi[0]:.3f}, p-value={bp_cpi[1]:.4f}"</span>)
+</code></pre>
+
+<h3>9.3 Log-Log Elasticity Model for CPI</h3>
+
+<pre><code><span class="comment"># Log-Log Model (equivalent to lm(log(CPI) ~ log(ExchRate) + log(LendIntRates), data=df))</span>
+model_elasticity = smf.ols(
+    <span class="string">'np.log(CPI) ~ np.log(ExchRate) + np.log(LendIntRates)'</span>,
+    data=df
+).fit()
+print(<span class="string">"\n--- CPI Log-Log Elasticity Summary ---"</span>)
+print(model_elasticity.summary())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Expected R Output:</strong><br>
+    Intercept = -0.70426, log(ExchRate) = 1.51494, log(LendIntRates) = -0.55204<br>
+    Residual standard error: 0.223 on 23 degrees of freedom<br><br>
+    <strong>Interpretation:</strong> In a log-log model, coefficients represent elasticities.
+    A 1% increase in ExchRate leads to approximately 1.51% increase in CPI.
+    A 1% increase in LendIntRates leads to approximately 0.55% decrease in CPI.
+</div>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 10: Demand Analysis (demand_data.csv)</h2>
+<!-- ============================================================ -->
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 10: DEMAND ANALYSIS (demand_data.csv)</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Load data (equivalent to data <- read.csv("demand_data.csv"))</span>
+data_demand = pd.read_csv(<span class="string">"demand_data.csv"</span>)
+print(<span class="string">"--- head(data_demand) ---"</span>)
+print(data_demand.head())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Dataset Structure:</strong><br>
+    Columns: Quantity, Price, Income, SubPrice, CompPrice<br>
+    Example row: Quantity=1984478.1, Price=11.45, Income=55999.34, SubPrice=13.58, CompPrice=8.49
+</div>
+
+<pre><code><span class="comment"># Double-Log Demand Model (equivalent to lm(log(Quantity) ~ log(Price) + log(Income) + log(SubPrice) + log(CompPrice)))</span>
+model_demand = smf.ols(
+    <span class="string">'np.log(Quantity) ~ np.log(Price) + np.log(Income) + np.log(SubPrice) + np.log(CompPrice)'</span>,
+    data=data_demand
+).fit()
+print(<span class="string">"\n--- Demand Analysis Log-Log Summary ---"</span>)
+print(model_demand.summary())
+</code></pre>
+
+<div class="note">
+    <strong>📝 Expected R Output:</strong><br>
+    Residual standard error: 0.1407 on 95 degrees of freedom<br>
+    Multiple R-squared: 0.9104, Adjusted R-squared: 0.9066<br>
+    F-statistic: 241.3 on 4 and 95 DF, p-value: < 2.2e-16
+</div>
+
+<h3>10.1 Elasticity Interpretation Table</h3>
+
+<div class="success">
+    <strong>✅ These are excellent results for illustrating demand elasticity.</strong> Since you estimated a
+    double-log demand model, every slope coefficient is an elasticity. This makes the model ideal
+    for teaching and reporting economic concepts.
+</div>
+
+<table>
+    <tr>
+        <th>Variable</th>
+        <th>Elasticity</th>
+        <th>Economic Interpretation</th>
+        <th>Classification</th>
+    </tr>
+    <tr>
+        <td>Price</td>
+        <td>−1.139</td>
+        <td>1% ↑ in price → 1.139% ↓ in demand</td>
+        <td>Elastic demand</td>
+    </tr>
+    <tr>
+        <td>Income</td>
+        <td>0.753</td>
+        <td>1% ↑ in income → 0.753% ↑ in demand</td>
+        <td>Normal necessity</td>
+    </tr>
+    <tr>
+        <td>Substitute Price</td>
+        <td>0.537</td>
+        <td>1% ↑ in substitute's price → 0.537% ↑ in demand</td>
+        <td>Substitute goods</td>
+    </tr>
+    <tr>
+        <td>Complement Price</td>
+        <td>−0.407</td>
+        <td>1% ↑ in complement's price → 0.407% ↓ in demand</td>
+        <td>Complementary goods</td>
+    </tr>
+</table>
+
+<div class="success">
+    <strong>The model demonstrates several fundamental concepts in demand analysis within a single regression:</strong><br>
+    ✅ Demand function estimation<br>
+    ✅ Own-price elasticity of demand<br>
+    ✅ Income elasticity of demand<br>
+    ✅ Cross-price elasticity of demand (substitutes)<br>
+    ✅ Cross-price elasticity of demand (complements)<br>
+    ✅ Elastic vs. inelastic demand<br>
+    ✅ Normal vs. inferior goods (if income elasticity were negative)<br>
+    ✅ Statistical significance (t-tests and p-values)<br>
+    ✅ Overall model significance (F-test)<br>
+    ✅ Goodness of fit (R² and Adjusted R²)<br><br>
+    <em>Because it captures nearly all of the core elasticity concepts in one framework, this type of
+    double-log demand model is widely used in econometrics and is an excellent example for classroom
+    demonstrations, assignments, and applied research.</em>
+</div>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 11: Durbin-Watson Test (Independence of Residuals)</h2>
+<!-- ============================================================ -->
+
+<div class="hypothesis">
+    <strong>Hypotheses for Independence:</strong><br>
+    <strong>Null:</strong> Residuals have no autocorrelation (are independent).<br>
+    <strong>Alternative:</strong> The residuals exhibit autocorrelation (are not independent).<br><br>
+    <strong>Note:</strong> Durbin-Watson statistic ranges from 0 to 4. A value near 2 indicates no autocorrelation.
+    Values near 0 indicate positive autocorrelation; values near 4 indicate negative autocorrelation.
+</div>
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 11: DURBIN-WATSON TEST</span>
+<span class="comment"># =============================================================================</span>
+
+<span class="comment"># Durbin-Watson (equivalent to dwtest() from lmtest package)</span>
+dw_mlr = durbin_watson(model_mlr.resid)
+print(<span class="string">f"\n--- Durbin-Watson Test (mtcars MLR) ---"</span>)
+print(<span class="string">f"  DW statistic: {dw_mlr:.5f}"</span>)
+
+dw_econ = durbin_watson(model_new.resid)
+print(<span class="string">f"\n--- Durbin-Watson Test (economics model_new) ---"</span>)
+print(<span class="string">f"  DW statistic: {dw_econ:.5f}"</span>)
+
+<span class="keyword">if</span> <span class="number">1.5</span> < dw_mlr < <span class="number">2.5</span>:
+    print(<span class="string">"\n  Interpretation: No significant autocorrelation detected (DW ≈ 2)"</span>)
+<span class="keyword">else</span>:
+    print(<span class="string">"\n  Interpretation: Possible autocorrelation in residuals"</span>)
+</code></pre>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>SECTION 12: Summary of All Diagnostic Tests</h2>
+<!-- ============================================================ -->
+
+<pre><code><span class="comment"># =============================================================================</span>
+<span class="comment"># SECTION 12: CONSOLIDATED DIAGNOSTIC SUMMARY</span>
+<span class="comment"># =============================================================================</span>
+
+print(<span class="string">"\n"</span> + <span class="string">"="</span>*<span class="number">70</span>)
+print(<span class="string">"CONSOLIDATED DIAGNOSTIC SUMMARY"</span>)
+print(<span class="string">"="</span>*<span class="number">70</span>)
+
+print(<span class="string">f"\n{'Model':<30} {'Test':<25} {'Statistic':<15} {'p-value':<15} {'Decision'}"</span>)
+print(<span class="string">"-"</span>*<span class="number">100</span>)
+
+<span class="comment"># mtcars MLR diagnostics</span>
+sw_stat, sw_p = stats.shapiro(model_mlr.resid)
+bp_s, bp_p, _, _ = het_breuschpagan(model_mlr.resid, model_mlr.model.exog)
+dw_s = durbin_watson(model_mlr.resid)
+
+print(<span class="string">f"{'mtcars MLR (mpg~wt+hp)':<30} {'Shapiro-Wilk':<25} {sw_stat:<15.5f} {sw_p:<15.5f} {'Reject H0' <span class="keyword">if</span> sw_p<0.05 <span class="keyword">else</span> 'Fail to Reject'}"</span>)
+print(<span class="string">f"{'':<30} {'Breusch-Pagan':<25} {bp_s:<15.3f} {bp_p:<15.4f} {'Reject H0' <span class="keyword">if</span> bp_p<0.05 <span class="keyword">else</span> 'Fail to Reject'}"</span>)
+print(<span class="string">f"{'':<30} {'Durbin-Watson':<25} {dw_s:<15.5f} {'N/A':<15} {'~2 = No autocorr'}"</span>)
+
+<span class="comment"># economics model_new diagnostics</span>
+sw_stat2, sw_p2 = stats.shapiro(model_new.resid)
+bp_s2, bp_p2, _, _ = het_breuschpagan(model_new.resid, model_new.model.exog)
+dw_s2 = durbin_watson(model_new.resid)
+
+print(<span class="string">f"\n{'economics (log psavert)':<30} {'Shapiro-Wilk':<25} {sw_stat2:<15.5f} {sw_p2:<15.5f} {'Reject H0' <span class="keyword">if</span> sw_p2<0.05 <span class="keyword">else</span> 'Fail to Reject'}"</span>)
+print(<span class="string">f"{'':<30} {'Breusch-Pagan':<25} {bp_s2:<15.3f} {bp_p2:<15.2e} {'Reject H0' <span class="keyword">if</span> bp_p2<0.05 <span class="keyword">else</span> 'Fail to Reject'}"</span>)
+print(<span class="string">f"{'':<30} {'Durbin-Watson':<25} {dw_s2:<15.5f} {'N/A':<15} {'~2 = No autocorr'}"</span>)
+
+print(<span class="string">"\n"</span> + <span class="string">"="</span>*<span class="number">70</span>)
+print(<span class="string">"END OF ANALYSIS"</span>)
+print(<span class="string">"="</span>*<span class="number">70</span>)
+</code></pre>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<h2>R-to-Python Quick Reference Table</h2>
+<!-- ============================================================ -->
+
+<table>
+    <tr>
+        <th>R Code</th>
+        <th>Python Equivalent</th>
+    </tr>
+    <tr>
+        <td><code>library(ggplot2)</code></td>
+        <td><code>import matplotlib.pyplot as plt; import seaborn as sns</code></td>
+    </tr>
+    <tr>
+        <td><code>data(mtcars)</code></td>
+        <td><code>pd.read_csv(url_mtcars, index_col=0)</code></td>
+    </tr>
+    <tr>
+        <td><code>head(df)</code></td>
+        <td><code>df.head()</code></td>
+    </tr>
+    <tr>
+        <td><code>str(df)</code></td>
+        <td><code>df.info()</code></td>
+    </tr>
+    <tr>
+        <td><code>summary(df)</code></td>
+        <td><code>df.describe()</code></td>
+    </tr>
+    <tr>
+        <td><code>cor(x, y)</code></td>
+        <td><code>stats.pearsonr(x, y)</code></td>
+    </tr>
+    <tr>
+        <td><code>cor(x, y, method="spearman")</code></td>
+        <td><code>stats.spearmanr(x, y)</code></td>
+    </tr>
+    <tr>
+        <td><code>lm(y ~ x, data=df)</code></td>
+        <td><code>smf.ols('y ~ x', data=df).fit()</code></td>
+    </tr>
+    <tr>
+        <td><code>summary(model)</code></td>
+        <td><code>model.summary()</code></td>
+    </tr>
+    <tr>
+        <td><code>predict(model, newdata, interval="confidence")</code></td>
+        <td><code>model.get_prediction(newdata).summary_frame()</code></td>
+    </tr>
+    <tr>
+        <td><code>shapiro.test(residuals(model))</code></td>
+        <td><code>stats.shapiro(model.resid)</code></td>
+    </tr>
+    <tr>
+        <td><code>ad.test(residuals(model))</code></td>
+        <td><code>stats.anderson(model.resid, dist='norm')</code></td>
+    </tr>
+    <tr>
+        <td><code>bptest(model)</code></td>
+        <td><code>het_breuschpagan(model.resid, model.model.exog)</code></td>
+    </tr>
+    <tr>
+        <td><code>dwtest(model)</code></td>
+        <td><code>durbin_watson(model.resid)</code></td>
+    </tr>
+    <tr>
+        <td><code>vif(model)</code></td>
+        <td><code>variance_inflation_factor(X.values, i)</code></td>
+    </tr>
+    <tr>
+        <td><code>cooks.distance(model)</code></td>
+        <td><code>model.get_influence().cooks_distance[0]</code></td>
+    </tr>
+    <tr>
+        <td><code>na.omit(df)</code></td>
+        <td><code>df.dropna()</code></td>
+    </tr>
+    <tr>
+        <td><code>colSums(is.na(df))</code></td>
+        <td><code>df.isnull().sum()</code></td>
+    </tr>
+    <tr>
+        <td><code>log(x)</code></td>
+        <td><code>np.log(x)</code></td>
+    </tr>
+    <tr>
+        <td><code>ggplot + geom_qq + geom_qq_line</code></td>
+        <td><code>sm.qqplot(residuals, line='s')</code></td>
+    </tr>
+    <tr>
+        <td><code>ggplot + geom_histogram</code></td>
+        <td><code>sns.histplot(data, kde=True)</code></td>
+    </tr>
+</table>
+
+<hr class="section-divider">
+
+<div class="warning">
+    <strong>⚠️ Important Notes:</strong>
+    <ul>
+        <li>This script is <strong>linear</strong> — no functions are defined. Every step executes sequentially.</li>
+        <li>Custom CSV files (<code>htn_dat.csv</code>, <code>training model.csv</code>, <code>demand_data.csv</code>) must be
+        in the same working directory as the script.</li>
+        <li>The <code>mtcars</code> and <code>economics</code> datasets are loaded from the Rdatasets GitHub repository
+        and require internet connectivity.</li>
+        <li>R's <code>log()</code> is natural log. Python's equivalent is <code>np.log()</code>. Inside statsmodels
+        formulas, use <code>np.log()</code> directly.</li>
+        <li>The Breusch-Pagan test in R (<code>lmtest::bptest</code>) uses the studentized version by default.
+        Python's <code>het_breuschpagan</code> returns (LM stat, p-value, F stat, F p-value).</li>
+        <li>Anderson-Darling in R (<code>nortest::ad.test</code>) gives a p-value directly. Python's
+        <code>scipy.stats.anderson</code> gives critical values at fixed significance levels instead.</li>
+    </ul>
+</div>
+
+<div class="note">
+    <strong>📝 Final Note:</strong> This script covers all sections from the original R HTML document:
+    Correlation Analysis, Simple Linear Regression, Multiple Linear Regression, Missing Data Handling,
+    Cook's Distance, Normality Tests, Homoscedasticity Tests, Multicollinearity (VIF),
+    Durbin-Watson Test, Log-Log Elasticity Models, CPI Analysis, and Demand Analysis.
+    All statistical tests, plots, and interpretations are preserved in Python.
+</div>
+
+</body>
+</html>
